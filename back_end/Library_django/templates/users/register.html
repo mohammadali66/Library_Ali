@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<h2>Sign up</h2>
+	<form method="post">
+	  {% csrf_token %}
+	  {% for field in form %}
+	    <p>
+	      {{ field.label_tag }}<br>
+	      {{ field }}
+	      {% if field.help_text %}
+	        <small style="color: grey">{{ field.help_text }}</small>
+	      {% endif %}
+	      {% for error in field.errors %}
+	        <p style="color: red">{{ error }}</p>
+	      {% endfor %}
+	    </p>
+	  {% endfor %}
+	  <button type="submit">Sign up</button>
+	</form>
+  
+	<!--
+	<div>
+		<p>Register in site free:</p>
+		<p>{{ errorMessage }}</p>
+		
+		<form method="POST">
+			{% csrf_token %}
+			<div>
+				<label>Firstname:</label>
+				<input name="firstname" type="text" />
+			</div>
+			
+			<div>
+				<label>Lastname:</label>
+				<input name="lastname" type="text" />
+			</div>
+			
+			<div>	
+				<label>Username:</label>
+				<input name="username" type="text" />
+			</div>
+			
+			<div>
+				<label>Email:</label>
+				<input name="email" type="email" />
+			</div>
+			
+			<div>
+				<label>Password:</label>
+				<input name="password" type="password" />
+			</div>
+			
+			<div>
+				<label>Re-password:</label>
+				<input name="repassword" type="password" />
+			</div>
+			
+			<div>
+				<input name="submit" type="submit" value="Register" />
+			</div>
+		</form>
+	</div>
+	
+	-->
+{% endblock %}
