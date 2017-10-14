@@ -1,5 +1,8 @@
+from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import permissions
+
+from rest_framework.authtoken.views import ObtainAuthToken
 
 from . import serializers
 
@@ -7,6 +10,16 @@ class RegisterAPIView(generics.CreateAPIView):
     
     serializer_class = serializers.UserRegisterSerializer
     permission_classes = (permissions.AllowAny, )
+
+#..............................................................................................................
+class LoginAPIView(APIView):
+    
+    serializer_class = serializers.UserLoginSerializer
+    permission_classes = (permissions.AllowAny, )
+    
+    def post(self, request):
+        return ObtainAuthToken().post(request)
+    
 
 # #.................................................................................................................
 # @api_view(['POST'])

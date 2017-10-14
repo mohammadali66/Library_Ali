@@ -17,6 +17,7 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { CategoryListComponent } from './category/category-list/category-list.component';
 import { CategoryService } from './category/category.service';
 import { CategoryDetailComponent } from './category/category-detail/category-detail.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CategoryDetailComponent } from './category/category-detail/category-det
     BookDetailComponent,
     PdfViewerComponent,
     CategoryListComponent,
-    CategoryDetailComponent
+    CategoryDetailComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

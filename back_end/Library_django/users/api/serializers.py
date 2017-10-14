@@ -33,8 +33,20 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return validated_data
         
 #............................................................................................................
-class LoginUserSerializer(serializers.ModelSerializer):
+class UserLoginSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username')
+        fields = ('username', 'password',)
+        
+        extra_kwargs = {
+                'password': {'write_only': True}
+        }
+        
+        
+        
+        
+        
+        
+        
+        

@@ -3,15 +3,22 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
+import { LoginComponent } from './auth/login/login.component';
 import { BookDetailComponent } from './book/book-detail/book-detail.component';
 import { CategoryDetailComponent } from './category/category-detail/category-detail.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'register', component: RegistrationComponent },
+
+  { path: 'users', children: [
+    { path: 'register', component: RegistrationComponent }
+    //{ path: 'login',    component: LoginComponent },
+  ]},
+
   { path: 'book', children:[
     { path: ':slug', component: BookDetailComponent }
   ] },
+
   {path: 'category', children:[
     {path: ':categoryslug', component: CategoryDetailComponent }
   ]}
