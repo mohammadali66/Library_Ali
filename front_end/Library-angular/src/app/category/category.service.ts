@@ -6,17 +6,17 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class CategoryService{
-  url = 'http://127.0.0.1:8000';
+  private mainUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: Http){}
-
-  getCategoryList(){
+  //...........................................................................
+  getCategoryBooksHomeList(){
+    let url = this.mainUrl + '/api/books/categorybookshome/?format=json';
     let headers = new Headers();
-    headers.append('Authorization', 'Your token used in app');
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    return this.http.get(this.url + '/categoryall/?format=json', headers)
+    return this.http.get(url, headers)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -25,13 +25,14 @@ export class CategoryService{
       );
   }
 
+  //...........................................................................
   getOneCategoryByBooks(categorySlug: string){
     let headers = new Headers();
     headers.append('Authorization', 'Your token used in app');
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
 
-    return this.http.get(this.url + '/category/' + categorySlug + '/?format=json', headers)
+    return this.http.get(this.mainUrl + '/category/' + categorySlug + '/?format=json', headers)
       .map(
         (response: Response) => {
           const data = response.json();

@@ -10,17 +10,11 @@ import { User } from './models/user.model';
 })
 export class AppComponent implements OnInit{
   title = 'app';
-  myToken = 'not found';
-  //token2 = 'token 2: ';
+
 
   constructor(private authService: AuthService){}
 
   ngOnInit(){
-    this.myToken = localStorage.getItem('token');
-    this.authService.loggedUser.subscribe(
-      (token: string) => {
-        this.myToken = token;
-      }
-    );
+    
   }
 }

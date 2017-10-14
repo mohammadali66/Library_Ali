@@ -1,66 +1,29 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import generics
+from django.shortcuts import render
+from django.views import View
 
-from .serializers import CategorySerializer, BookSerializer, CategoryByBooksSerializer
-from .models import Category, Book
+from . import models
 
-
-@api_view(['GET'])
-def getBookDetail(request, slug):
+class HomeView(View):
+    template_name = 'home.html'
     
-    if request.method == "GET":
-        try:            
-            book = Book.objects.get(slug=slug)
-            serializer = BookSerializer(book)
-            print "get boooo"
-            return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
         
-        except Book.DoesNotExist:            
-            return Response(status = status.HTTP_404_NOT_FOUND)
-
-#................................................................................................................
-@api_view(['GET'])
-def getBooksByCategory(request, categorySlug):
+        #. . . . . . . . . . . . . . . . . .
+        #get category list with their books those have featured==True
+        categoryList = models.Category.objects.all()
+        
+        #category_book_list[(p1, [s1.1, s1.2]),  (p2, [s2.1, s2.2]), ]
+        category_book_list = []
+        
+        for category in categoryList:
+            try:
+                book_list = models.Book.objects.filter(featured=True, category=category)
+            except:
+                book_list = None
+                
+            category_book_list.append((category, book_list))
+        #. . . . . . . . . . . . . . . . . .
+        
+        context = {'category_book_list': category_book_list}
+        return render(request, self.template_name, context)
     
-    if request.method == "GET":
-        try:
-            myCategory = Category.objects.get(slug=categorySlug)
-            print str(myCategory)
-            #bookList = Book.objects.filter(category=myCategory)
-            #serializer = BookSerializer(bookList, many=True)
-            serializer = CategoryByBooksSerializer(myCategory)
-            return Response(serializer.data)
-        except:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-#................................................................................................................
-@api_view(['GET'])
-def getBooksByCategories(request):
-    if request.method == "GET":
-        try:
-            categoryList = Category.objects.all()            
-            #categoryList = Category.objects.filter(category_books__featured=True)
-            
-            serializer = CategoryByBooksSerializer(categoryList, many=True)
-            #serializer = CategoryByBooksSerializer(categoryList)
-            
-            return Response(serializer.data)
-        except:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-            
-            
-#................................................................................................................
-#@api_view(['GET'])
-class view2(generics.ListCreateAPIView):
-    queryset = Category.objects.all()
-    #queryset = Category.objects.filter(category_books__featured=True)
-    serializer_class = CategoryByBooksSerializer
-
-
-
-
-
-            

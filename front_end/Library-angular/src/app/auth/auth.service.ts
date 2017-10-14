@@ -12,12 +12,12 @@ import { User } from '../models/user.model';
 export class AuthService{
 
   loggedUser = new Subject();
-  private mainUrl = 'http://127.0.0.1:8000/'  
+  private mainUrl = 'http://127.0.0.1:8000';
 
   constructor(private http: Http){}
   //...........................................................................
   register(newUser: any){
-    let url = this.mainUrl +'api/users/register/?format=json'
+    let url = this.mainUrl +'/api/users/register/?format=json'
     let headers = new Headers();
     //headers.append('Authorization', 'Your token used in app');
     headers.append('Content-Type', 'application/json');
@@ -38,7 +38,7 @@ export class AuthService{
   }
   //...........................................................................
   login(aUser: any){
-    let url = this.mainUrl + 'api/users/login/?format=json';
+    let url = this.mainUrl + '/api/users/login/?format=json';
     let headers = new Headers();
     //headers.append('Authorization', 'Your token used in app');
     headers.append('Content-Type', 'application/json');

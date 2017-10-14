@@ -3,8 +3,8 @@
   <hr>
   <div class="row">
     <div *ngFor="let book of category.category_books">
-      <div class="col-md-3 recent" *ngIf="book.featured">
-        <img src="{{ categoryService.url }}{{book.image}}" alt="{{ book.title }}" class="img-responsive pull-left littleImgBook" />
+      <div class="col-md-3 recent">
+        <img src="{{ categoryService.mainUrl }}{{book.image}}" alt="{{ book.title }}" class="img-responsive pull-left littleImgBook" />
         <h6><a [routerLink]="['/book', book.slug]">{{ book.title }}</a></h6>
       </div>
 

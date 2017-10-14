@@ -13,33 +13,29 @@ import { CategoryService } from '../category.service';
 export class CategoryListComponent implements OnInit, OnDestroy {
 
   categoryApiSubscription: Subscription;
-  categoryList: Array<Category> = new Array<Category>();
+  categoryList: Array<Category> = new Array<Category>();  
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService) {
+
+  }
 
   ngOnInit() {
-
-    this.categoryApiSubscription = this.categoryService.getCategoryList()
+    this.categoryApiSubscription = this.categoryService.getCategoryBooksHomeList()
       .subscribe(
-        (categoryData) => {
+        (categoryData: any) => {
+          console.log(categoryData.results);
 
-          for(const cat of categoryData){
+          for(const cat of categoryData.results){
             let category: Category = new Category;
             category.name = cat.name;
             category.slug = cat.slug;
 
             let books: Array<Book> = new Array<Book>();
-            for(const b of cat.category_books){
+            for(const b of cat.books){
               let book: Book = new Book;
               book.title = b.title;
               book.slug = b.slug;
-              book.category = category;
-              book.authors = b.authors;
-              book.publisher = b.publisher;
-              book.pageCount = b.pageCount;
-              book.description = b.description;
               book.image = b.image;
-              book.pdfFile = b.pdfFile;
               book.featured = b.featured;
 
               books.push(book);
@@ -50,11 +46,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
         },
         (error) => console.log(error)
       );
-
-
   }
 
   ngOnDestroy(){
-    this.categoryApiSubscription.unsubscribe();
+    //this.categoryApiSubscription.unsubscribe();
   }
 }

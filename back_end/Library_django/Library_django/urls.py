@@ -14,16 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-
 from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
 
+from books.views import HomeView
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^classic/$', HomeView.as_view(), name='home'),
+    
     url(r'^api/users/', include('users.api.urls', namespace='userapi')),
     url(r'^classic/users/', include('users.urls', namespace='userclassic')),
+    
+    url(r'^api/books/', include('books.api.urls', namespace='bookapi')),
     
     #url(r'^', include('users.urls')),
     #url(r'^', include('books.urls')),

@@ -6,14 +6,6 @@ from django.contrib.auth import authenticate, login
 from . import forms
 
 
-class HomeView(View):
-    template_name = 'home.html'
-    
-    def get(self, request, *args, **kwargs):
-                
-        context = {}
-        return render(request, self.template_name, context)
-    
 #...........................................................................................................
 class UserRegisterView(View):
     template_name = 'users/register.html'
