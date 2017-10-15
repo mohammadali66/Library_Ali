@@ -15,19 +15,19 @@
       </div>
     </div> -->
 
-    <!-- <div class="col-sm-3 col-lg-3">
+<!--------------- Category List ----------------------------------->
+    <div class="col-sm-3 col-lg-3">
       <div class="widget">
-        <h4>Information</h4>
+        <h4>Categories</h4>
         <ul class="link-list">
-          <li><a href="#">Press release</a></li>
-          <li><a href="#">Terms and conditions</a></li>
-          <li><a href="#">Privacy policy</a></li>
-          <li><a href="#">Career center</a></li>
-          <li><a href="#">Contact us</a></li>
+          <li *ngFor="let cat of categoryList">
+            <a href="#">{{ cat.name }}</a>
+          </li>
         </ul>
       </div>
-
     </div>
+
+<!--------------- Menu ----------------------------------->    
     <div class="col-sm-3 col-lg-3">
       <div class="widget">
         <h4>Pages</h4>
@@ -40,6 +40,7 @@
         </ul>
       </div>
     </div>
+    <!--
     <div class="col-sm-3 col-lg-3">
       <div class="widget">
         <h4>Newsletter</h4>
@@ -51,7 +52,8 @@
                       </span>
                   </div>
       </div>
-    </div> -->
+    </div>
+  -->
   </div>
 </div>
 <div id="sub-footer">

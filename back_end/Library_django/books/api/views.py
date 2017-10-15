@@ -22,6 +22,11 @@ class CategoryBooksHomeAPIView(generics.ListAPIView):
     
 
 
-
+#................................................................................................................
+class CategoryMenuAPIView(generics.ListAPIView):
+    
+    serializer_class = serializers.CategoryMenuSerializer
+    permission_classes = (permissions.AllowAny, )
+    queryset = Category.objects.all()
 
             

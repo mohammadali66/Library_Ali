@@ -13,7 +13,7 @@ import { CategoryService } from '../category.service';
 export class CategoryListComponent implements OnInit, OnDestroy {
 
   categoryApiSubscription: Subscription;
-  categoryList: Array<Category> = new Array<Category>();  
+  categoryList: Array<Category> = new Array<Category>();
 
   constructor(private categoryService: CategoryService) {
 
@@ -23,8 +23,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.categoryApiSubscription = this.categoryService.getCategoryBooksHomeList()
       .subscribe(
         (categoryData: any) => {
-          console.log(categoryData.results);
-
+          
           for(const cat of categoryData.results){
             let category: Category = new Category;
             category.name = cat.name;

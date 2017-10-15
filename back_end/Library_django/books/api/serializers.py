@@ -26,14 +26,14 @@ class CategoryHomeSerializer(serializers.ModelSerializer):
         model = Category
         fields = ('name', 'slug', 'books')
         
-        
-#     category_books = BookHomeSerializer(read_only=True, many=True)
-#     
-#     class Meta:
-#         model = Category
-#         fields = ('name', 'slug', 'category_books')
-        
-        
+#................................................................................................................
+#category list for menu
+class CategoryMenuSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Category
+        fields = ('name', 'slug')
+   
         
         
         

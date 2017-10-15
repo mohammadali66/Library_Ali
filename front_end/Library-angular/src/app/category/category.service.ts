@@ -24,7 +24,21 @@ export class CategoryService{
         }
       );
   }
+  //...........................................................................
+  getCategoryMenu(){
+    let url = this.mainUrl + '/api/books/categorymenu/?format=json';
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
 
+    return this.http.get(url, headers)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      );
+  }
   //...........................................................................
   getOneCategoryByBooks(categorySlug: string){
     let headers = new Headers();
