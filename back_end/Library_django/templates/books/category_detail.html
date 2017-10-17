@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block styles %}
+	.imgBook{
+		width: 175px;
+  		height: 250px;  		
+  		margin: 0 10px 0 0;
+	}
+{% endblock %}
+
+{% block content %}
+	
+	<div class="row">
+		<h2><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h2>
+		<hr>
+		<div class="row">
+			{% for book in books %}
+				<div>
+				  <div class="col-md-6 recent">
+				    <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-responsive pull-left imgBook" />
+				    <h4><a href="">{{ book.title }}</a></h4>
+				    <dl>
+			          <dt>Authors:</dt>
+			          <dd>{{ book.authors }}</dd>
+			        </dl>
+				  </div>
+					
+				</div>
+			{% endfor %}
+		  
+		</div>		
+	</div>
+	
+	<div class="row">
+	{% if books.has_other_pages %}
+	  <ul class="pagination">
+	    {% if books.has_previous %}
+	      <li><a href="?page={{ books.previous_page_number }}">&laquo;</a></li>
+	    {% else %}
+	      <li class="disabled"><span>&laquo;</span></li>
+	    {% endif %}
+	    {% for i in books.paginator.page_range %}
+	      {% if books.number == i %}
+	        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+	      {% else %}
+	        <li><a href="?page={{ i }}">{{ i }}</a></li>
+	      {% endif %}
+	    {% endfor %}
+	    {% if books.has_next %}
+	      <li><a href="?page={{ books.next_page_number }}">&raquo;</a></li>
+	    {% else %}
+	      <li class="disabled"><span>&raquo;</span></li>
+	    {% endif %}
+	  </ul>
+	{% endif %}
+	
+	</div>
+
+{% endblock %}

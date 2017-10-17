@@ -23,7 +23,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.categoryApiSubscription = this.categoryService.getCategoryBooksHomeList()
       .subscribe(
         (categoryData: any) => {
-          
+
           for(const cat of categoryData.results){
             let category: Category = new Category;
             category.name = cat.name;
@@ -34,6 +34,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
               let book: Book = new Book;
               book.title = b.title;
               book.slug = b.slug;
+              book.authors = b.authors;
               book.image = b.image;
               book.featured = b.featured;
 

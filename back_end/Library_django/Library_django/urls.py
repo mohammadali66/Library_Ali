@@ -23,14 +23,13 @@ from books.views import HomeView
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^classic/$', HomeView.as_view(), name='home'),
+    url(r'^admin/',         admin.site.urls),
+    url(r'^classic/$',      HomeView.as_view(), name='home'),
     
-    url(r'^api/users/', include('users.api.urls', namespace='userapi')),
+    url(r'^api/users/',     include('users.api.urls', namespace='userapi')),
     url(r'^classic/users/', include('users.urls', namespace='userclassic')),
     
-    url(r'^api/books/', include('books.api.urls', namespace='bookapi')),
-    
-    #url(r'^', include('users.urls')),
-    #url(r'^', include('books.urls')),
+    url(r'^api/books/',     include('books.api.urls', namespace='bookapi')),
+    url(r'^classic/books/', include('books.urls', namespace='bookclassic')),
+        
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

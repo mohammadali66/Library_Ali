@@ -2,18 +2,35 @@
   <h2>{{ category.name }}</h2>
   <hr>
   <div class="row">
+    <button class="btn btn-primary"
+      (click)="nextPage('previous')"
+      [disabled]="!previous">Previous</button>
+
+    <button class="btn btn-primary"
+      (click)="nextPage('next')"
+      [disabled]="!next">Next</button>
+  </div>
+
+  <div class="row">
     <div *ngFor="let book of category.category_books">
-      <div class="col-md-6 recent" *ngIf="book.featured">
+      <div class="col-md-6 recent">
         <img src="{{ categoryService.url }}{{book.image}}" alt="{{ book.title }}" class="img-responsive pull-left imgBook" />
         <h4><a [routerLink]="['/book', book.slug]">{{ book.title }}</a></h4>
         <dl>
           <dt>Authors:</dt>
           <dd>{{ book.authors }}</dd>
-          <dt>Publisher:</dt>
-          <dd>{{ book.publisher }}</dd>
         </dl>
       </div>
 
     </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary"
+      (click)="nextPage('previous')"
+      [disabled]="!previous">Previous</button>
+
+    <button class="btn btn-primary"
+      (click)="nextPage('next')"
+      [disabled]="!next">Next</button>
   </div>
 </div>

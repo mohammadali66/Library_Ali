@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.urlresolvers import reverse
 from ckeditor.fields import RichTextField
 from __builtin__ import str
 from django.utils import timezone
@@ -21,7 +22,7 @@ class Category(models.Model):
         unique_together = ('name', 'slug')
         
     def get_absolute_url(self):
-        None
+        return reverse('bookclassic:categorydetail', kwargs={'slug': self.slug})
 
 #.....................................................................................................................
 class Book(models.Model):

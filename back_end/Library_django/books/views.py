@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from . import models
 
@@ -26,4 +27,39 @@ class HomeView(View):
         
         context = {'category_book_list': category_book_list}
         return render(request, self.template_name, context)
+
+#............................................................................................................    
+class CategoryDetailView(View):
     
+    template_name = 'books/category_detail.html'
+    
+    def get(self, request, slug, *args, **kwargs):
+        
+        errorMessage = None
+        
+        try:
+            category = models.Category.objects.get(slug=slug)            
+            book_list = models.Book.objects.filter(category=category)
+            
+            page = request.GET.get('page', 1)
+            paginator = Paginator(book_list, 2)
+            
+        except:
+            book_list = None
+            category = None
+            errorMessage = 'Not Found!'
+        
+        try:
+            books = paginator.page(page)
+        except PageNotAnInteger:
+            books = paginator.page(1)
+        except EmptyPage:
+            books = paginator.page(paginator.num_pages)
+        
+        context = {'category': category, 'books': books }
+        return render(request, self.template_name, context)
+
+
+
+
+

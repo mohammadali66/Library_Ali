@@ -9,7 +9,7 @@ class BookHomeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Book
-        fields = ('title', 'slug', 'image', 'featured')
+        fields = ('title', 'slug', 'authors', 'image', 'featured')
         
         
 #................................................................................................................
@@ -33,7 +33,21 @@ class CategoryMenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('name', 'slug')
-   
+
+#................................................................................................................
+#category detail
+class CategoryDetailSerializer(serializers.ModelSerializer):
+    
+    category_books = BookHomeSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Category
+        fields = ('name', 'slug', 'description', 'category_books', )
+
+
+
+
+
         
         
         
