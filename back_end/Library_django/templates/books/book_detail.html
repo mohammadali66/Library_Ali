@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	islogged: {{ isLogged }}<br>
+	isSelected: {{ isSelected }}
+	<div class="row">
+	  <div class="col-md-4">
+	    <img src="{{ book.image.url }}" alt="book.title" class="img-responsive bookImg" />
+	  </div>
+	
+	  <div class="col-md-8">
+	    <h3>{{ book.title }}</h3>
+	    <dl class="dl-horizontal">
+	      <dt>Authors:</dt>
+	      <dd>{{ book.authors }}</dd>
+	
+	      <dt>Publisher:</dt>
+	      <dd>{{ book.publisher }}</dd>
+	    </dl>
+	    <p>{{ book.description | safe }}</p>
+	
+	  </div>
+	</div>
+	
+	{% if isLogged %}
+		
+		<!-- ---------------- if book not selected -------------------------- -->
+		{% if not isSelected %}
+			<button class="btn btn-success btn-lg">Add to My Library</button>
+		{% else %}
+		<!-- ---------------- if book selected before ----------------------- -->			
+			<iframe src="{{ book.pdfFile.url }}" width="800px" height="600px"></iframe>	
+		{% endif %}
+		
+		
+		
+		
+	{% endif %}
+	
+
+{% endblock %}
+

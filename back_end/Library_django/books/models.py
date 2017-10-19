@@ -55,8 +55,7 @@ class Book(models.Model):
         
         
     def get_absolute_url(self):
-        #return reverse("book_single", kwargs={"slug": self.slug})
-        None
+        return reverse('bookclassic:bookdetail', kwargs={'slug': self.slug})
      
      
      

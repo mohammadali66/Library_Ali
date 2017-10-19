@@ -3,6 +3,8 @@ from django.views import View
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from . import models
+from users.models import UserProfile
+
 
 class HomeView(View):
     template_name = 'home.html'
@@ -57,6 +59,40 @@ class CategoryDetailView(View):
             books = paginator.page(paginator.num_pages)
         
         context = {'category': category, 'books': books }
+        return render(request, self.template_name, context)
+
+
+#............................................................................................................
+class BookDetailView(View):
+    
+    template_name = 'books/book_detail.html'
+    isLogged = False        #is user logged in
+    isSelected = False      #is logged user selected the book before
+    
+    def get(self, request, slug, *args, **kwargs):
+        
+        try:            
+            if request.user.is_authenticated():
+                self.isLogged = True
+                userProfile = UserProfile.objects.get(user=request.user,
+                                                      books__slug=slug)
+                self.isSelected = True
+            else:
+                self.isLogged = False
+                
+        except UserProfile.DoesNotExist:
+            userProfile = None
+            self.isSelected = False
+                                            
+        try:
+            book = models.Book.objects.get(slug=slug)
+        except models.Book.DoesNotExist:
+            book = None
+            
+        context = {'book': book, 
+                   'isLogged': self.isLogged, 
+                   'isSelected': self.isSelected}
+        
         return render(request, self.template_name, context)
 
 

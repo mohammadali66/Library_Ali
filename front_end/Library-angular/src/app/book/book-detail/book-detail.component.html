@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-4">
-    <img src="{{ bookService.url }}{{book.image}}" alt="imggggg" class="img-responsive bookImg" />
+    <img src="{{ bookService.mainUrl }}{{book.image}}" alt="book.title" class="img-responsive bookImg" />
   </div>
 
   <div class="col-md-8">
@@ -17,18 +17,29 @@
   </div>
 </div>
 
-<div class="row">
-  <label>Page:</label>
-  <input type="number" placeholder="Page" [(ngModel)]="pageNumber"> / <span>{{ book.pageCount }}</span>
-  <a [routerLink]="" (click)="leftPage()" class="arrow"><i class="fa fa-angle-left"></i></a>
-  <a [routerLink]="" (click)="rightPage()" class="arrow"><i class="fa fa-angle-right"></i></a>
+<div *ngIf="book.pdfFile; then showPdf else showAddButton"></div>
+<!-- ---------------- Display Pdf file -------------------->
+<ng-template #showPdf>
+  <div class="row">
+    <label>Page:</label>
+    <input type="number" placeholder="Page" [(ngModel)]="pageNumber"> / <span>{{ book.pageCount }}</span>
+    <a [routerLink]="" (click)="leftPage()" class="arrow"><i class="fa fa-angle-left"></i></a>
+    <a [routerLink]="" (click)="rightPage()" class="arrow"><i class="fa fa-angle-right"></i></a>
 
-</div>
-<div class="row">
-    <pdf-viewer src="{{ bookService.url }}{{ book.pdfFile }}"
-                  [page]= "pageNumber"
-                  [original-size]="false"
-                  style="display: block;"
-      ></pdf-viewer>
+  </div>
+  <div class="row">
+      <pdf-viewer [src]="pdfFilePath"
+                    [page]= "pageNumber"
+                    [original-size]="false"
+                    style="display: block;"
+        ></pdf-viewer>
 
-</div>
+  </div>
+</ng-template>
+
+<!-- ---------------- Display add button -------------------->
+<ng-template #showAddButton>
+  <button *ngIf="isLoggedUser"
+    class="btn btn-success btn-lg">Add to My Library
+  </button>
+</ng-template>

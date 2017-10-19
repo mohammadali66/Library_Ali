@@ -18,7 +18,7 @@
 				<div>
 				  <div class="col-md-6 recent">
 				    <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-responsive pull-left imgBook" />
-				    <h4><a href="">{{ book.title }}</a></h4>
+				    <h4><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h4>
 				    <dl>
 			          <dt>Authors:</dt>
 			          <dd>{{ book.authors }}</dd>

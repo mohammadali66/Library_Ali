@@ -28,7 +28,7 @@ export class CategoryDetailComponent implements OnInit {
         this.categoryService.getOneCategoryBrief(this.category.slug)
           .subscribe(
             (data: any) => {
-              this.category.name = data.name;
+              this.category.name = data.name;              
             }
           );
 

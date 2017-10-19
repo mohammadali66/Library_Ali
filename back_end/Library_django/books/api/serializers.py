@@ -5,6 +5,7 @@ from books.models import Category, Book
 
     
 #................................................................................................................
+#Book Detail for Home page
 class BookHomeSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -13,6 +14,7 @@ class BookHomeSerializer(serializers.ModelSerializer):
         
         
 #................................................................................................................
+#Category detail for Home page
 class CategoryHomeSerializer(serializers.ModelSerializer):
     
     books = serializers.SerializerMethodField('get_category_books')
@@ -44,8 +46,42 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         model = Category
         fields = ('name', 'slug', 'description', 'category_books', )
 
+#................................................................................................................
+#Book detail without pdf file
+class BookDetailSerializer(serializers.ModelSerializer):
+    
+    category = CategoryMenuSerializer()
+    
+    class Meta:
+        model = Book
+        fields = ('title', 
+                  'slug', 
+                  'description', 
+                  'authors', 
+                  'publisher', 
+                  'pageCount', 
+                  'image', 
+                  'category',
+                  )
 
-
+#................................................................................................................
+#Book detail complete with pdf file
+class BookDetailCompleteSerializer(serializers.ModelSerializer):
+    
+    category = CategoryMenuSerializer()
+    
+    class Meta:
+        model = Book
+        fields = ('title', 
+                  'slug', 
+                  'description', 
+                  'authors', 
+                  'publisher', 
+                  'pageCount', 
+                  'image',
+                  'pdfFile', 
+                  'category',
+                  )
 
 
         

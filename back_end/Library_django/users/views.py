@@ -52,7 +52,7 @@ class UserLoginView(View):
                 login(request, user)
                 context = {}
                 #return render(request, 'home.html', context)
-                return HttpResponseRedirect("/classic/users/")
+                return HttpResponseRedirect("/classic/")
             else:
                 errorMessage = 'Your username and password are incorrect!'
                 context = {'errorMessage': errorMessage}
