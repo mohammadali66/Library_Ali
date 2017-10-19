@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
@@ -95,7 +95,28 @@ class BookDetailView(View):
         
         return render(request, self.template_name, context)
 
-
-
+#............................................................................................................
+class AddBookToBooksListView(View):
+    
+    message = ''
+    
+    def get(self, request, slug, *args, **kwargs):
+        
+        if request.user.is_authenticated():
+            try:
+                userProfile = UserProfile.objects.get(user=request.user,
+                                                      books__slug=slug)
+                self.message = 'before added!!'
+            except UserProfile.DoesNotExist:
+                try:
+                    book = models.Book.objects.get(slug=slug)
+                    userProfile = UserProfile.objects.get(user=request.user)
+                    userProfile.books.add(book)
+                    userProfile.save()
+                    self.message = 'success!!'
+                except:
+                    self.message = 'book not found!!'
+                    
+        return redirect('bookclassic:bookdetail', slug=slug)
 
 

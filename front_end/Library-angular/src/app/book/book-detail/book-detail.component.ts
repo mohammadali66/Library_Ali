@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { BookService } from '../book.service';
@@ -19,19 +19,22 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   pdfFilePath: string;
   isLoggedUser = false;
 
-  constructor(private bookService: BookService, private route: ActivatedRoute) { }
+  constructor(private bookService: BookService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     //get slug from url
     this.route.params.subscribe(
       (params: Params) => {
+        this.book = new Book;
         this.book.slug = params['slug'];
-
+        
         //get book from API
         this.bookService.getBookDetail(this.book.slug)
           .subscribe(
             (bookData) => {
-              console.log(bookData);
+              //console.log(bookData);
 
               this.book.title = bookData.title;
               this.book.slug = bookData.slug;
@@ -57,9 +60,6 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           );
       }
     );
-
-
-
   }
 
   leftPage(){
@@ -75,6 +75,20 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       this.pageNumber = this.book.pageCount;
     }
 
+  }
+
+  addBook(){
+    this.bookService.addBookToBooksListUser(this.book.slug)
+      .subscribe(
+        (data) => {
+          console.log(data);
+
+          //a trick for reloading current component
+          this.router.navigate(['blank']);
+          this.router.navigate(['/book', 'computation-theory']);
+
+        }
+      );
   }
 
   ngOnDestroy(){

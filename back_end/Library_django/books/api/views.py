@@ -110,8 +110,40 @@ class BookDetailAPIView(APIView):
             return Response({'errorMessage': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
         
         
+#................................................................................................................
+#Add book to books list of logged user
+class AddBookToBooksListUserAPIView(APIView):
+    
+    #serializer_class = serializers.BookHomeSerializ1r
+    permission_classes = (permissions.IsAuthenticated, )
+    message = ''
+    
+    def get(self, request, slug, format=None):
+                
+        try:            
+            userProfile = UserProfile.objects.get(user=request.user, books__slug=slug)
+            self.message = 'before added!!'
+            return Response({'message': self.message }, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            try:
+                book = Book.objects.get(slug=slug)
+                userProfile = UserProfile.objects.get(user=request.user)
+                userProfile.books.add(book)
+                userProfile.save()
+                
+                self.message = 'success!!'
+                return Response({'message': self.message }, status=status.HTTP_202_ACCEPTED)
+                
+            except:
+                self.message = 'book not found!!'
+                return Response({'message': self.message }, status=status.HTTP_400_BAD_REQUEST)
+            
         
-        
-        
-        
+            
+            
+            
+            
+            
+            
+            
             

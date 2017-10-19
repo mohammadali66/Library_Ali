@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-	islogged: {{ isLogged }}<br>
-	isSelected: {{ isSelected }}
+	
 	<div class="row">
 	  <div class="col-md-4">
 	    <img src="{{ book.image.url }}" alt="book.title" class="img-responsive bookImg" />
@@ -27,7 +25,10 @@
 		
 		<!-- ---------------- if book not selected -------------------------- -->
 		{% if not isSelected %}
-			<button class="btn btn-success btn-lg">Add to My Library</button>
+			<a class="btn btn-success btn-lg"
+				href="{% url 'bookclassic:addbook' book.slug %}"	
+				>Add to My Library
+			</a>
 		{% else %}
 		<!-- ---------------- if book selected before ----------------------- -->			
 			<iframe src="{{ book.pdfFile.url }}" width="800px" height="600px"></iframe>	

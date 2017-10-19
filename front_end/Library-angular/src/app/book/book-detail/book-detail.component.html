@@ -40,6 +40,6 @@
 <!-- ---------------- Display add button -------------------->
 <ng-template #showAddButton>
   <button *ngIf="isLoggedUser"
-    class="btn btn-success btn-lg">Add to My Library
+    class="btn btn-success btn-lg" (click)="addBook()">Add to My Library
   </button>
 </ng-template>
