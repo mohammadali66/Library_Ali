@@ -9,6 +9,8 @@ from ckeditor.fields import RichTextField
 from __builtin__ import str
 from django.utils import timezone
 
+from django.contrib.auth.models import User
+
 
 class Category(models.Model):
     name         = models.CharField(max_length=50)
@@ -24,7 +26,7 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('bookclassic:categorydetail', kwargs={'slug': self.slug})
 
-#.....................................................................................................................
+#.................................................................................................................
 class Book(models.Model):
     title               = models.CharField(max_length=100)
     slug                = models.SlugField(unique=True, null=True, allow_unicode=True)
@@ -57,5 +59,22 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('bookclassic:bookdetail', kwargs={'slug': self.slug})
      
-     
-     
+
+#................................................................................................................
+
+class Note(models.Model):
+    user                = models.ForeignKey(User, on_delete=models.CASCADE)
+    book                = models.ForeignKey(Book, related_name='note_books', on_delete=models.CASCADE) 
+    text                = RichTextField(null=True, blank=True)
+    pageOfBook          = models.CharField(max_length=50)
+    created_datetime    = models.DateTimeField(auto_now_add = True, auto_now = False)
+    #updated_datetime   = models.DateTimeField(auto_now_add = False, auto_now = False)
+    updated_datetime    = models.DateTimeField(default = timezone.now)
+    
+    
+    def __unicode__(self):
+        return 'note {0} of user: {1} for book: {2}'.format(self.id, self.user, self.book)
+    
+    
+    
+    

@@ -70,3 +70,11 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Need to import at least one locale-data with intl.
  */
 // import 'intl/locale-data/jsonp/en';
+
+//........................................................................................................
+// used to programmatically set the configuration of the ckeditor file imports
+// Note: this must stay as an import due to all of the imports happening before a statement is run
+// no matter where the statement is in this file.
+//import './ckset';
+// needed for our in place editing features
+//import 'ckeditor';

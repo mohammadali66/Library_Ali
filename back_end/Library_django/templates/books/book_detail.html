@@ -31,8 +31,52 @@
 			</a>
 		{% else %}
 		<!-- ---------------- if book selected before ----------------------- -->			
-			<iframe src="{{ book.pdfFile.url }}" width="800px" height="600px"></iframe>	
-		{% endif %}
+			<iframe src="{{ book.pdfFile.url }}" width="800px" height="600px"></iframe>
+			
+			<!-- ---------------- Note List ----------------------- -->
+			{% if noteList %}
+				<h3>Note List:</h3>
+				{% for note in noteList %}
+					<div class="row">
+						<dl class="dl-horizontal">
+					        <dt>Page of Book</dt>
+					        <dd>{{ note.pageOfBook }}</dd>
+					        <dt>Created Date</dt>
+					        <dd>{{ note.created_datetime }}</dd>
+					        <dt>Updated Date</dt>
+					        <dd>{{ note.updated_datetime }}</dd>
+					        <dt>Text</dt>
+					        <dd>{{ note.text | safe }}</dd>
+					      </dl>
+					      <a href="{% url 'bookclassic:updatedeletenote' bookslug=book.slug pk=note.id %}" class="btn btn-danger btn-sm">Delete</a>
+					      <button class="btn btn-primary btn-sm">Edit</button>
+					</div>
+				{% endfor %}
+			{% endif %}	<!-- noteList -->
+			
+			<!-- ---------------- Add Note Form ----------------------- -->
+			<h3>Add Note to This Book</h3>
+			{% if message %}
+				<div class="alert alert-info">
+				  <strong>Info!</strong> {{ message }}
+				</div>
+			{% endif %}
+			<form method="POST">
+				{% csrf_token %}
+				
+				<div class="form-group">
+					<input type="text" class="form-control" name="pageOfBook" placeholder="Page Of Book">
+				</div>
+				<div class="form-group">
+					<textarea class="form-control" rows="7" name="text" placeholder="Text"></textarea>
+				</div>
+				
+				<button class="btn btn-success">Add Note</button>
+				
+				
+			</form>
+			
+		{% endif %} <!-- not isSelected -->
 		
 		
 		

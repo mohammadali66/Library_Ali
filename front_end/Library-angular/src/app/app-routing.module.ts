@@ -6,9 +6,11 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { LoginComponent } from './auth/login/login.component';
 import { BookDetailComponent } from './book/book-detail/book-detail.component';
 import { CategoryDetailComponent } from './category/category-detail/category-detail.component';
+import { NoteCreateComponent } from './note/note-create/note-create.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'note', component: NoteCreateComponent },
 
   { path: 'users', children: [
     { path: 'register', component: RegistrationComponent }

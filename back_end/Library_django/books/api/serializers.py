@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from books.models import Category, Book
+from books.models import Book, Category, Note
 
 
     
@@ -47,6 +47,27 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         fields = ('name', 'slug', 'description', 'category_books', )
 
 #................................................................................................................
+class NoteSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Note
+        fields = ('id', 
+                  'user',
+                  'book',
+                  'text',
+                  'pageOfBook',
+                  'created_datetime',
+                  'updated_datetime',
+                  ) 
+        extra_kwargs = {
+                        'id'              : {'read_only': True},
+                        'user'            : {'read_only': True},
+                        'book'            : {'read_only': True},
+                        'created_datetime': {'read_only': True},
+                        'updated_datetime': {'read_only': True},
+                        }
+    
+#................................................................................................................
 #Book detail without pdf file
 class BookDetailSerializer(serializers.ModelSerializer):
     
@@ -69,6 +90,15 @@ class BookDetailSerializer(serializers.ModelSerializer):
 class BookDetailCompleteSerializer(serializers.ModelSerializer):
     
     category = CategoryMenuSerializer()
+    notes = serializers.SerializerMethodField('get_book_notes')
+    
+    def get_book_notes(self, book):
+        #request=self.context['request']
+        user_id = self.context['user_id']
+        print 'id %s' % user_id
+        notes = Note.objects.filter(book=book, user__pk=user_id)
+        serializer = NoteSerializer(instance=notes, many=True)        
+        return serializer.data
     
     class Meta:
         model = Book
@@ -81,9 +111,6 @@ class BookDetailCompleteSerializer(serializers.ModelSerializer):
                   'image',
                   'pdfFile', 
                   'category',
+                  'notes',
                   )
-
-
-        
-        
         

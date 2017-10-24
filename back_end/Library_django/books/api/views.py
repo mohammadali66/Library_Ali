@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework import permissions
 
 from . import serializers
-from books.models import Category, Book
+from books.models import Book, Category, Note
 from users.models import UserProfile
 
 
@@ -101,13 +101,14 @@ class BookDetailAPIView(APIView):
             
             #if is authenticated and the book is in books list of logged user
             if userProfile:
-                serializer = serializers.BookDetailCompleteSerializer(book)
+                serializer = serializers.BookDetailCompleteSerializer(book, context={'user_id':request.user.id})
+                #serializer = serializers.BookDetailCompleteSerializer(book)
             else:
                 serializer = serializers.BookDetailSerializer(book)
                 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         except:
-            return Response({'errorMessage': 'Not Found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'errorMessage': 'Not Found!!'}, status=status.HTTP_404_NOT_FOUND)
         
         
 #................................................................................................................
@@ -139,11 +140,56 @@ class AddBookToBooksListUserAPIView(APIView):
                 return Response({'message': self.message }, status=status.HTTP_400_BAD_REQUEST)
             
         
+#................................................................................................................
+class NoteAPIView(APIView):
+                
+    serializer_class = serializers.NoteSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    
+    def post(self, request, bookslug):
+        
+        serializer = serializers.NoteSerializer(data = request.data)
+        if serializer.is_valid():
+            try:
+                userProfile = UserProfile.objects.get(user=request.user, books__slug=bookslug)
+                
+                note = Note(
+                            user = userProfile.user,
+                            book = Book.objects.get(slug=bookslug),
+                            text = request.data.get('text'),
+                            pageOfBook = request.data.get('pageOfBook')
+                        )                
+                note.save()
+                
+                serializer = serializers.NoteSerializer(note)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                
+            except UserProfile.DoesNotExist:
+                return Response({'message': 'You have not permission to add note to this book' }, 
+                                status=status.HTTP_400_BAD_REQUEST)           
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
             
+#................................................................................................................
+class NoteUpdateDeleteAPIView(APIView):
+    serializer_class = serializers.NoteSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    
+    def delete(self, request, pk):
+        try:
+            note = Note.objects.get(pk=pk)
             
+            #just user of note can delete that.
+            if note.user == request.user:
+                note.delete()
+                return Response({'message': 'deleting successfully.'})                
+            else:
+                return Response({'error message': 'You have not permission.'})
             
-            
-            
+        except Note.DoesNotExist:
+            return Response({'error message': 'This note does not exist.'})
+        
             
             
             

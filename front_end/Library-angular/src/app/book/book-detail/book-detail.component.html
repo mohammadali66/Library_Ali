@@ -18,7 +18,7 @@
 </div>
 
 <div *ngIf="book.pdfFile; then showPdf else showAddButton"></div>
-<!-- ---------------- Display Pdf file -------------------->
+<!-- ................. Display Pdf file ................. -->
 <ng-template #showPdf>
   <div class="row">
     <label>Page:</label>
@@ -28,16 +28,40 @@
 
   </div>
   <div class="row">
-      <pdf-viewer [src]="pdfFilePath"
+      <pdf-viewer src="{{ bookService.mainUrl }}{{ book.pdfFile }}"
                     [page]= "pageNumber"
                     [original-size]="false"
                     style="display: block;"
         ></pdf-viewer>
 
   </div>
+  <!-- ..................... Note ...................... -->
+  <div class="alert alert-success" *ngIf="message">
+    <strong>Success!</strong> {{ message }}
+  </div>
+
+  <div class="row" *ngIf="book.notes">
+    <div *ngFor="let note of book.notes">
+      <dl class="dl-horizontal">
+        <dt>Page of Book</dt>
+        <dd>{{ note.pageOfBook }}</dd>
+        <dt>Created Date</dt>
+        <dd>{{ note.created_datetime }}</dd>
+        <dt>Updated Date</dt>
+        <dd>{{ note.updated_datetime }}</dd>
+        <dt>Text</dt>
+        <dd innerHTML="{{ note.text }}"></dd>
+      </dl>
+      <button class="btn btn-danger btn-sm" (click)="deleteNote(note.id)">Delete</button>
+      <button class="btn btn-primary btn-sm">Edit</button>
+      <hr>
+    </div>
+  </div>
+  <app-note-create [bookSlug]="book.slug"></app-note-create>
+
 </ng-template>
 
-<!-- ---------------- Display add button -------------------->
+<!-- .................... Display add button .......................... -->
 <ng-template #showAddButton>
   <button *ngIf="isLoggedUser"
     class="btn btn-success btn-lg" (click)="addBook()">Add to My Library

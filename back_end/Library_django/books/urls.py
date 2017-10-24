@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^categorydetail/(?P<slug>[\w-]+)/$', views.CategoryDetailView.as_view(), name="categorydetail"),
     url(r'^bookdetail/(?P<slug>[\w-]+)/$', views.BookDetailView.as_view(), name="bookdetail"),
     url(r'^addbook/(?P<slug>[\w-]+)/$', views.AddBookToBooksListView.as_view(), name="addbook"),
+    url(r'^updatedeletenote/(?P<bookslug>[\w-]+)/(?P<pk>\d+)/$', views.UpdateDeleteNoteView.as_view(), name="updatedeletenote"),
 #     url(r'^categoryall/$', views.getBooksByCategories),
 #     url(r'^category/(?P<categorySlug>[\w-]+)/$', views.getBooksByCategory),
 #     url(r'^categoryall2/$', view2.as_view()),

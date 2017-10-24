@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { CKEditorModule } from 'ng2-ckeditor';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BaseComponent } from './base/base.component';
@@ -18,6 +20,8 @@ import { CategoryListComponent } from './category/category-list/category-list.co
 import { CategoryService } from './category/category.service';
 import { CategoryDetailComponent } from './category/category-detail/category-detail.component';
 import { LoginComponent } from './auth/login/login.component';
+import { NoteCreateComponent } from './note/note-create/note-create.component';
+import { NoteService } from './note/note.service';
 
 @NgModule({
   declarations: [
@@ -31,15 +35,17 @@ import { LoginComponent } from './auth/login/login.component';
     PdfViewerComponent,
     CategoryListComponent,
     CategoryDetailComponent,
-    LoginComponent
+    LoginComponent,
+    NoteCreateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    CKEditorModule
   ],
-  providers: [AuthService, BookService, CategoryService],
+  providers: [AuthService, BookService, CategoryService, NoteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

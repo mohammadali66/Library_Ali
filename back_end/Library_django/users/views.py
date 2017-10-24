@@ -57,10 +57,6 @@ class UserLoginView(View):
                 errorMessage = 'Your username and password are incorrect!'
                 context = {'errorMessage': errorMessage}
                 return render(request, self.template_name, context)
-            
-            
-        
-        
         
         
         

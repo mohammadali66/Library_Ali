@@ -3,7 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { BookService } from '../book.service';
+import { NoteService } from '../../note/note.service';
 import { Book } from '../../models/book.model';
+import { Note } from '../../models/note.model';
 
 @Component({
   selector: 'app-book-detail',
@@ -16,10 +18,12 @@ export class BookDetailComponent implements OnInit, OnDestroy {
 
   book: Book = new Book;
   pageNumber = 1;
-  pdfFilePath: string;
+  //pdfFilePath: string;
   isLoggedUser = false;
+  message = '';
 
   constructor(private bookService: BookService,
+              private noteService: NoteService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -29,12 +33,13 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.book = new Book;
         this.book.slug = params['slug'];
-        
+
         //get book from API
         this.bookService.getBookDetail(this.book.slug)
           .subscribe(
             (bookData) => {
               //console.log(bookData);
+              this.message = '';
 
               this.book.title = bookData.title;
               this.book.slug = bookData.slug;
@@ -45,10 +50,23 @@ export class BookDetailComponent implements OnInit, OnDestroy {
               this.book.image = bookData.image;
 
               this.book.pdfFile = bookData.pdfFile;
-              this.pdfFilePath = this.bookService.mainUrl + bookData.pdfFile;
+              //this.pdfFilePath = this.bookService.mainUrl + bookData.pdfFile;
 
               //this.book.featured = bookData.featured;
               this.book.category = bookData.category;
+
+              if(bookData.notes){
+                this.book.notes = new Array<Note>();
+                for(let n of bookData.notes){
+                  let note: Note = new Note();
+                  note.id = n.id;
+                  note.text = n.text;
+                  note.pageOfBook = n.pageOfBook;
+                  note.created_datetime = n.created_datetime;
+                  note.updated_datetime = n.updated_datetime;
+                  this.book.notes.push(note);
+                }
+              }
 
               //is logged user
               if(localStorage.getItem('token') !== '')
@@ -85,10 +103,22 @@ export class BookDetailComponent implements OnInit, OnDestroy {
 
           //a trick for reloading current component
           this.router.navigate(['blank']);
-          this.router.navigate(['/book', 'computation-theory']);
-
+          this.router.navigate(['/book', this.book.slug]);
         }
       );
+  }
+
+
+  deleteNote(noteId){
+    this.noteService.deleteNote(noteId)
+    .subscribe(
+      (data) => {
+        this.message = 'The note has deleted successfully!';
+        //a trick for reloading current component
+        this.router.navigate(['blank']);
+        this.router.navigate(['/book', this.book.slug]);
+      }
+    );
   }
 
   ngOnDestroy(){

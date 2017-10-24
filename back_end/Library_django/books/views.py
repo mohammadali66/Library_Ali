@@ -3,6 +3,7 @@ from django.views import View
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from . import models
+from . import forms
 from users.models import UserProfile
 
 
@@ -68,6 +69,8 @@ class BookDetailView(View):
     template_name = 'books/book_detail.html'
     isLogged = False        #is user logged in
     isSelected = False      #is logged user selected the book before
+    noteList = None
+    #addForm = None
     
     def get(self, request, slug, *args, **kwargs):
         
@@ -76,6 +79,14 @@ class BookDetailView(View):
                 self.isLogged = True
                 userProfile = UserProfile.objects.get(user=request.user,
                                                       books__slug=slug)
+                #List of Notes
+                self.noteList = models.Note.objects.filter(user=request.user,
+                                               book__slug=slug)
+                
+                #forms for add note
+                #self.addForm = forms.AddNoteForm() 
+                
+                 
                 self.isSelected = True
             else:
                 self.isLogged = False
@@ -89,12 +100,70 @@ class BookDetailView(View):
         except models.Book.DoesNotExist:
             book = None
             
-        context = {'book': book, 
+        context = {'book': book,
+                   'noteList': self.noteList, 
+                   #'addForm': self.addForm,
                    'isLogged': self.isLogged, 
-                   'isSelected': self.isSelected}
+                   'isSelected': self.isSelected,                   
+                   }
         
         return render(request, self.template_name, context)
-
+    
+    
+    
+    def post(self, request, slug, *args, **kwargs):
+        message=''
+        
+        if  not request.POST['pageOfBook'] or not request.POST['text']:
+            message = "some fields are empty!"
+        else:
+            note = models.Note(
+                        pageOfBook = request.POST['pageOfBook'],
+                        text = request.POST['text'],
+                        user = request.user,
+                        book = models.Book.objects.get(slug=slug)
+                        )
+            note.save()
+            message = 'successfully added'
+        
+        # .......  get method
+        try:            
+            if request.user.is_authenticated():
+                self.isLogged = True
+                userProfile = UserProfile.objects.get(user=request.user,
+                                                      books__slug=slug)
+                #List of Notes
+                self.noteList = models.Note.objects.filter(user=request.user,
+                                               book__slug=slug)
+                
+                #forms for add note
+                #self.addForm = forms.AddNoteForm() 
+                
+                 
+                self.isSelected = True
+            else:
+                self.isLogged = False
+                
+        except UserProfile.DoesNotExist:
+            userProfile = None
+            self.isSelected = False
+                                            
+        try:
+            book = models.Book.objects.get(slug=slug)
+        except models.Book.DoesNotExist:
+            book = None
+            
+        context = {'book': book,
+                   'noteList': self.noteList, 
+                   #'addForm': self.addForm,
+                   'isLogged': self.isLogged, 
+                   'isSelected': self.isSelected,
+                   'message': message,
+                   }
+        
+        return render(request, self.template_name, context)
+                
+             
 #............................................................................................................
 class AddBookToBooksListView(View):
     
@@ -118,5 +187,23 @@ class AddBookToBooksListView(View):
                     self.message = 'book not found!!'
                     
         return redirect('bookclassic:bookdetail', slug=slug)
+
+#............................................................................................................
+class UpdateDeleteNoteView(View):
+    
+    def get(self, request, bookslug, pk, *args, **kwargs):
+        
+        if request.user.is_authenticated():
+            try:
+                note = models.Note.objects.get(pk=pk)
+                print str(note)
+                note.delete()
+            except:
+                pass
+            
+        return redirect('bookclassic:bookdetail', slug=bookslug)
+
+
+
 
 

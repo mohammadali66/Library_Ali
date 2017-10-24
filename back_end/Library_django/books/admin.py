@@ -4,7 +4,7 @@
 from django.contrib import admin
 from django.utils import timezone
 
-from .models import Category, Book
+from .models import Book, Category, Note
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
@@ -36,4 +36,6 @@ class BookAdmin(admin.ModelAdmin):
         
 admin.site.register(Book, BookAdmin)
 
+#.....................................................................................................................
 
+admin.site.register(Note)
