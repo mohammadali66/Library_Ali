@@ -39,9 +39,10 @@ export class NoteCreateComponent implements OnInit {
           this.successMessage = '';
         }
       );
-
+      
       //a trick for reloading current component
-      this.router.navigate(['blank']);
-      this.router.navigate(['/book', this.bookSlug]);
+      // this.router.navigate(['blank']);
+      // this.router.navigate(['/book', this.bookSlug]);
+      //window.location.reload();
   }
 }

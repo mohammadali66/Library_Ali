@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block styles %}
+	.bookImg{
+		width: 220px;
+  		height: 300px;  		
+  		margin: 5px 10px 5px 0;
+	}
+{% endblock %}
+
 {% block content %}
 	
 	<div class="row">
@@ -15,6 +23,9 @@
 	
 	      <dt>Publisher:</dt>
 	      <dd>{{ book.publisher }}</dd>
+	      
+	      <dt>Category:</dt>
+	      <dd><a href="{{ book.category.get_absolute_url }}">{{ book.category.name }}</a></dd>
 	    </dl>
 	    <p>{{ book.description | safe }}</p>
 	
@@ -22,7 +33,7 @@
 	</div>
 	
 	{% if isLogged %}
-		
+	<div class="row">
 		<!-- ---------------- if book not selected -------------------------- -->
 		{% if not isSelected %}
 			<a class="btn btn-success btn-lg"
@@ -80,7 +91,7 @@
 		
 		
 		
-		
+	</div>
 	{% endif %}
 	
 

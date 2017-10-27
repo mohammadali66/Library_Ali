@@ -2,13 +2,17 @@
   <h2>{{ category.name }}</h2>
   <hr>
   <div class="row">
+    <div class="alert alert-info">
+      <strong>Count of Book List:</strong> {{ countBookList }}
+    </div>
+
     <button class="btn btn-primary"
       (click)="nextPage('previous')"
-      [disabled]="!previous">Previous</button>
+      *ngIf="previous">Previous</button>
 
     <button class="btn btn-primary"
       (click)="nextPage('next')"
-      [disabled]="!next">Next</button>
+      *ngIf="next">Next</button>
   </div>
 
   <div class="row">
@@ -27,10 +31,10 @@
   <div class="row">
     <button class="btn btn-primary"
       (click)="nextPage('previous')"
-      [disabled]="!previous">Previous</button>
+      *ngIf="previous">Previous</button>
 
     <button class="btn btn-primary"
       (click)="nextPage('next')"
-      [disabled]="!next">Next</button>
+      *ngIf="next">Next</button>
   </div>
 </div>

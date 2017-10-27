@@ -11,6 +11,9 @@
 
       <dt>Publisher:</dt>
       <dd>{{ book.publisher }}</dd>
+
+      <dt>Category:</dt>
+      <dd><a [routerLink]="['/category', book.category.slug]">{{ book.category.name }}</a></dd>
     </dl>
     <p innerHTML="{{ book.description }}"></p>
 
@@ -21,6 +24,7 @@
 <!-- ................. Display Pdf file ................. -->
 <ng-template #showPdf>
   <div class="row">
+    <!-- <iframe src="{{ bookService.mainUrl }}{{ book.pdfFile }}" width="800px" height="800px"></iframe> -->
     <label>Page:</label>
     <input type="number" placeholder="Page" [(ngModel)]="pageNumber"> / <span>{{ book.pageCount }}</span>
     <a [routerLink]="" (click)="leftPage()" class="arrow"><i class="fa fa-angle-left"></i></a>
@@ -28,10 +32,11 @@
 
   </div>
   <div class="row">
+
       <pdf-viewer src="{{ bookService.mainUrl }}{{ book.pdfFile }}"
                     [page]= "pageNumber"
                     [original-size]="false"
-                    style="display: block;"
+                    style="display: block; border:1px solid black;"
         ></pdf-viewer>
 
   </div>

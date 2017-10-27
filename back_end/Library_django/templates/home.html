@@ -4,29 +4,24 @@
 	.littleImgBook{
   		width: 75px;
   		height: 100px;
+  		margin: 5px 5px 5px 0;
 	}
 	
 {% endblock %}
    	
 {% block content %}
 
-<p>This home page </p>
-
 {% for obj in category_book_list %}
 	<div class="row">
 		<h2><a href="{{ obj.0.get_absolute_url }}">{{ obj.0.name }}</a></h2>
 		<hr>
 		<div class="row">
-			{% for book in obj.1 %}
-				<div>
-				  <div class="col-md-3 recent">
-				    <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-responsive pull-left littleImgBook" />
-				    <h6><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h6>
-				  </div>
-				
-				</div>
-			{% endfor %}
-		  
+			{% for book in obj.1 %}				
+				<div class="col-md-4 recent">				  	
+					<img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-responsive pull-left littleImgBook" />				  					  	
+					<h6><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h6>
+				</div>				    				  				  
+			{% endfor %}		  
 		</div>
 	</div>	
 {% endfor %}

@@ -21,7 +21,6 @@ class CategoryBooksHomeAPIView(generics.ListAPIView):
         return categoryList
     
 
-
 #................................................................................................................
 #category list for menu
 class CategoryMenuAPIView(generics.ListAPIView):
@@ -63,7 +62,20 @@ class BooksOfOneCategoryAPIView(generics.ListAPIView):
 #             return Response(data=serializer.data, status=status.HTTP_200_OK)
 #         except:
 #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#................................................................................................................
+class BooksOfLoggedUserAPIView(generics.ListAPIView):
     
+    serializer_class = serializers.BookHomeSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    
+    def get_queryset(self):
+        userProfile = UserProfile.objects.get(user = self.request.user)
+        bookList = Book.objects.filter(book_users = userProfile)
+        return bookList
+        
+        
+        
 #................................................................................................................
 #detail category
 class CategoryDetailBriefAPIView(APIView):

@@ -45,7 +45,7 @@ class CategoryDetailView(View):
             book_list = models.Book.objects.filter(category=category)
             
             page = request.GET.get('page', 1)
-            paginator = Paginator(book_list, 2)
+            paginator = Paginator(book_list, 6)
             
         except:
             book_list = None

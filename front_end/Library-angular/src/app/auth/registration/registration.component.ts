@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  private errorMessage: string = 'errorrrrr'
+  private errorMessage: string = '';
   private successMessage: string;
   constructor(private authService: AuthService,
               private router: Router) { }

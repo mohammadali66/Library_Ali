@@ -22,6 +22,7 @@ import { CategoryDetailComponent } from './category/category-detail/category-det
 import { LoginComponent } from './auth/login/login.component';
 import { NoteCreateComponent } from './note/note-create/note-create.component';
 import { NoteService } from './note/note.service';
+import { BooksUserComponent } from './book/books-user/books-user.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { NoteService } from './note/note.service';
     CategoryListComponent,
     CategoryDetailComponent,
     LoginComponent,
-    NoteCreateComponent
+    NoteCreateComponent,
+    BooksUserComponent
   ],
   imports: [
     BrowserModule,

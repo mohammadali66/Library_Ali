@@ -8,6 +8,16 @@
         <div class="col-lg-3">
           <aside class="left-sidebar">
             <app-login></app-login>
+
+            <div class="widget">
+    					<h5 class="widgetheading">Categories</h5>
+    					<ul class="cat">
+                <li *ngFor="let category of categoryList">
+                  <i class="fa fa-angle-right"></i><a [routerLink]="['/category', category.slug]">{{ category.name }}</a>
+                </li>
+    					</ul>
+    				</div>
+
           </aside>
 
         </div>

@@ -11,6 +11,7 @@ import { Category } from '../../models/category.model';
 export class NavigationComponent implements OnInit {
 
   categoryList: Array<Category> = new Array<Category>();
+  isLoggedUser = false;
 
   constructor(private categoryService: CategoryService) { }
 
@@ -27,6 +28,12 @@ export class NavigationComponent implements OnInit {
          //console.log("categories:" + this.categoryList)
       }
     );
+
+    if(localStorage.getItem('token') !== '')
+      this.isLoggedUser = true;
+    else
+      this.isLoggedUser = false;
+
   }
 
 }

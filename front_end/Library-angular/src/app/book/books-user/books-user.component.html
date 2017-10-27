@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="row">
+    <button class="btn btn-primary"
+      (click)="nextPage('previous')"
+      *ngIf="previous"
+      >Previous</button>
+
+    <button class="btn btn-primary"
+      (click)="nextPage('next')"
+      *ngIf="next">Next</button>
+  </div>
+
+  <div class="row">
+    <div *ngFor="let book of bookList">
+      <div class="col-md-6 recent">
+        <img src="{{ bookService.url }}{{book.image}}" alt="{{ book.title }}" class="img-responsive pull-left imgBook" />
+        <h4><a [routerLink]="['/book', book.slug]">{{ book.title }}</a></h4>
+        <dl>
+          <dt>Authors:</dt>
+          <dd>{{ book.authors }}</dd>
+        </dl>
+      </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-primary"
+      (click)="nextPage('previous')"
+      *ngIf="previous">Previous</button>
+
+    <button class="btn btn-primary"
+      (click)="nextPage('next')"
+      *ngIf="next">Next</button>
+  </div>
+</div>

@@ -35,8 +35,39 @@ export class BookService{
       );
   }
 //..............................................................................
-addBookToBooksListUser(slug: string){
-  let url = this.mainUrl + '/api/books/addbook/' + slug + '/?format=json';
+  addBookToBooksListUser(slug: string){
+    let url = this.mainUrl + '/api/books/addbook/' + slug + '/?format=json';
+    let headers = new Headers();
+
+    if(localStorage.getItem('token') !== ''){
+      headers = new Headers({ 'Authorization': 'Token ' + localStorage.getItem('token') });
+    }else{
+      headers = new Headers({});
+    }
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(url, options)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw(error);
+          //return Observable.throw('Not Found!!');
+        }
+      );
+  }
+//...........................................................................
+booksOfLoggedUser(pageUrl=null){
+  let url: string = '';
+  if(!pageUrl){
+      url = url = this.mainUrl + '/api/books/booksuser/?format=json';
+  }else{
+    url = pageUrl;
+  }  
   let headers = new Headers();
 
   if(localStorage.getItem('token') !== ''){

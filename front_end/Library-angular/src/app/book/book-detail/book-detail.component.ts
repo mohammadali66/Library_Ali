@@ -27,7 +27,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router) { }
 
-  ngOnInit() {
+
+  function_for_ngOnInit(){
     //get slug from url
     this.route.params.subscribe(
       (params: Params) => {
@@ -53,7 +54,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
               //this.pdfFilePath = this.bookService.mainUrl + bookData.pdfFile;
 
               //this.book.featured = bookData.featured;
-              this.book.category = bookData.category;
+              this.book.category.name = bookData.category.name;
+              this.book.category.slug = bookData.category.slug;
 
               if(bookData.notes){
                 this.book.notes = new Array<Note>();
@@ -80,6 +82,10 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnInit() {
+    this.function_for_ngOnInit();
+  }
+
   leftPage(){
     this.pageNumber = this.pageNumber - 1;
     if(this.pageNumber <= 1){
@@ -102,8 +108,11 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           console.log(data);
 
           //a trick for reloading current component
-          this.router.navigate(['blank']);
-          this.router.navigate(['/book', this.book.slug]);
+          //this.router.navigate(['/']);
+          //this.router.navigate(['/book', this.book.slug]);
+          //this.router.navigateByUrl(this.router.url);
+          //window.location.reload();
+          this.function_for_ngOnInit();   //reload the component
         }
       );
   }
@@ -115,8 +124,10 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       (data) => {
         this.message = 'The note has deleted successfully!';
         //a trick for reloading current component
-        this.router.navigate(['blank']);
-        this.router.navigate(['/book', this.book.slug]);
+        // this.router.navigate(['blank']);
+        // this.router.navigate(['/book', this.book.slug]);
+        //window.location.reload();
+        this.function_for_ngOnInit(); //reload the component
       }
     );
   }

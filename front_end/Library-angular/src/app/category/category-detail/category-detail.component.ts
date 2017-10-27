@@ -15,6 +15,7 @@ export class CategoryDetailComponent implements OnInit {
   category: Category = new Category;
   previous: string = null;
   next: string = null;
+  countBookList;
 
   constructor(private categoryService: CategoryService, private route: ActivatedRoute) { }
 
@@ -28,7 +29,7 @@ export class CategoryDetailComponent implements OnInit {
         this.categoryService.getOneCategoryBrief(this.category.slug)
           .subscribe(
             (data: any) => {
-              this.category.name = data.name;              
+              this.category.name = data.name;
             }
           );
 
@@ -36,7 +37,7 @@ export class CategoryDetailComponent implements OnInit {
         this.categoryService.getBooksOfOneCategory(this.category.slug)
           .subscribe(
             (data: any) => {
-
+              this.countBookList = data.count;
               this.category.category_books = new Array<Book>();
               for(let b of data.results){
                 let book: Book = new Book();

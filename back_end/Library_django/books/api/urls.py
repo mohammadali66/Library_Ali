@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^bookscategory/(?P<categoryslug>[\w-]+)/$', views.BooksOfOneCategoryAPIView.as_view(), name='bookscategory'),
     url(r'^bookdetail/(?P<slug>[\w-]+)/$', views.BookDetailAPIView.as_view(), name='bookdetail'),
     url(r'^addbook/(?P<slug>[\w-]+)/$', views.AddBookToBooksListUserAPIView.as_view(), name='addbook'),
+    url(r'^booksuser/$', views.BooksOfLoggedUserAPIView.as_view(), name='booksuser'),
+    
     
     url(r'^note/(?P<bookslug>[\w-]+)/$', views.NoteAPIView.as_view(), name='note'),
     url(r'^noteupdatedelete/(?P<pk>\d+)/$', views.NoteUpdateDeleteAPIView.as_view(), name='noteupdatedelete'),

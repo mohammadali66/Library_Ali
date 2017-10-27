@@ -12,6 +12,7 @@ import { User } from '../../models/user.model';
 })
 export class LoginComponent implements OnInit {
   loggedUsername: string = '';
+  errorMessage = '';
 
   constructor(private authService: AuthService,
               private router: Router) { }
@@ -35,8 +36,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', data.token);
           localStorage.setItem('username', myUser.username);
           this.loggedUsername = localStorage.getItem('username');
-
-          this.router.navigate(['/']);
+          //console.log(this.router.url);
+          this.errorMessage = '';
+          this.router.navigate([this.router.url]);
+          window.location.reload();
           // let user = new User();
           // user.username = myUser.username;
           // user.token = data.token;
@@ -44,7 +47,8 @@ export class LoginComponent implements OnInit {
           //this.authService.loggedUser.next(localStorage.getItem('token'))
         },
         (error) => {
-          console.log(error);
+          //console.log(error);
+          this.errorMessage = error;
         }
       );
   }
@@ -54,5 +58,7 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('token', '');
     localStorage.setItem('username', '');
     this.loggedUsername = null;
+
+    window.location.reload();
   }
 }
